@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-
+use App\Models\settings;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -19,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+    $setting=settings::chackSetting();
+    view()->share([
+        'setting'=>$setting,
+    ]);
+
     }
 }

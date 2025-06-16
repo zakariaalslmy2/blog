@@ -77,10 +77,16 @@ return [
     | set to any locale for which you plan to have translation strings.
     |
     */
+    'languages' => [
 
-    'locale' => env('APP_LOCALE', 'en'),
+        'ar' => 'العربية',
+        'en' => 'English',
+        'fr' => 'Frensh',
+    ],
 
-    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
+    'locale' => 'ar',
+
+    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'ar'),
 
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
