@@ -9,6 +9,19 @@ use Astrotomic\Translatable\Translatable;
 class Post extends Model implements TranslatableContract
 {
     use Translatable;
-    public $translatedAttributes = ['content', 'content', 'smallDescrption'];
-    protected $fillable = [  'id', 'image', 'category_id', 'created_at', 'updated_at','deleted_at'];
+
+
+    public $translatedAttributes = ['title', 'content', 'smallDescrption'];
+    protected $fillable = ['id', 'image', 'category_id', 'created_at', 'updated_at','deleted_at','user_id'];
+
+        public function category()
+    {
+       return $this->belongsTo(Category::class , 'category_id');
+    }
+
+
+    public function user()
+    {
+       return $this->belongsTo(User::class , 'user_id');
+    }
 }

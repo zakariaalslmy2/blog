@@ -39,86 +39,42 @@ class UserController extends Controller
         return response()->view('dashboard.users.add');
     }
 
-    // public function getUsersDatatable()
-    // {
-    //     // if (auth()->user()->can('viewAny', $this->user)) {
-    //     // $data = User::select('*');
-    //     // }else{
-    //     //     $data = User::where('id' , auth()->user()->id);
-    //     // }
-    //     // $data = User::select('*');
-    //     $data = User::select('id', 'name', 'email', 'status')->get();
 
 
-    //     // return response()->json([
-    //     //     'data' => $data
-    //     // ]);
-
-
-
-
-    //     return   \Yajra\DataTables\Facades\DataTables::of($data)
-    //         ->addIndexColumn()
-    //         ->addColumn('action', function ($row) {
-    //             $btn = '';
-    //             if (auth()->user()->can('update', $row)) {
-    //                 $btn .= '<a href="' . Route('dashboard.users.edit', $row->id) . '"  class="edit btn btn-success btn-sm" ><i class="fa fa-edit"></i></a>';
-    //             }
-    //             if (auth()->user()->can('delete', $row)) {
-    //                 $btn .= '
-
-    //                     <a id="deleteBtn" data-id="' . $row->id . '" class="edit btn btn-danger btn-sm"  data-toggle="modal" data-target="#deletemodal"><i class="fa fa-trash"></i></a>';
-    //             }
-    //             return $btn;
-    //         })
-    //         ->addColumn('status', function ($row) {
-    //             return $row->status == null ? __('words.not activated') : __('words.' . $row->status);
-    //         })
-
-    //         ->rawColumns(['action', 'status'])
-    //         ->make(true);
-    // }
-
-    public function getUsersDatatable()
+public function getUsersDatatable()
 {
-    if (auth()->user()->can('viewAny', $this->user)) {
-        // نختار الحقول المطلوبة ونعطي اسماً مستعاراً لحقل status الأصلي ليمثل الدور
-        $data = User::select(['id', 'name', 'email', 'status as role']);
+
+  if (auth()->user()->can('viewAny', \App\Models\User::class)) {
+        $data = \App\Models\User::select('id', 'name', 'email', 'status');
     } else {
-        $data = User::where('id', auth()->user()->id)->select(['id', 'name', 'email', 'status as role']);
+        $data = \App\Models\User::where('id', auth()->user()->id)
+                          ->select('id', 'name', 'email', 'status');
     }
-            $data = User::select('id', 'name', 'email', 'status')->get();
-            // $data= User::select('*');
-            // dd($data);
-
-        // return response()->json([
-        //     'data' => $data,
-        // ]);
-
+//  $data = \App\Models\User::select('id', 'name', 'email', 'status');
     return \Yajra\DataTables\Facades\DataTables::of($data)
-        ->addIndexColumn() // يضيف عمود DT_RowIndex
+        ->addIndexColumn() // يضيف عمود الترقيم DT_RowIndex
         ->addColumn('action', function ($row) {
             $btn = '';
             if (auth()->user()->can('update', $row)) {
-                $btn .= '<a href="' . Route('dashboard.users.edit', $row->id) . '"  class="edit btn btn-success btn-sm" ><i class="fa fa-edit"></i></a>';
+                $btn .= '<a href="' . route('dashboard.users.edit', $row->id) . '" class="edit btn btn-success btn-sm"><i class="fa fa-edit"></i></a>';
             }
             if (auth()->user()->can('delete', $row)) {
                 $btn .= ' <a id="deleteBtn" data-id="' . $row->id . '" class="edit btn btn-danger btn-sm"  data-toggle="modal" data-target="#deletemodal"><i class="fa fa-trash"></i></a>';
             }
+                            $btn .= ' <a id="deleteBtn" data-id="' . $row->id . '" class="edit btn btn-danger btn-sm"  data-toggle="modal" data-target="#deletemodal"><i class="fa fa-trash"></i></a>';
+                            $btn .= '<a href="' . route('dashboard.users.edit', $row->id) . '" class="edit btn btn-success btn-sm"><i class="fa fa-edit"></i></a>';
             return $btn;
+
         })
-        ->editColumn('role', function ($row) { // هذا لعمود "Role"
-            // $row->role يحتوي الآن على القيمة الأصلية من حقل status (admin, writer, null)
-            if ($row->role) {
-                return __('words.' . $row->role); // مثال: words.admin, words.writer
-            }
-            return __('words.no_role_assigned'); // أو أي نص مناسب
+        ->addColumn('role', function ($row) {
+            // هذا لعمود "Role"
+            return $row->status ? __('words.' . $row->status) : __('words.no_role_assigned');
         })
-        ->addColumn('current_status', function ($row) { // هذا لعمود "Status" (مُفعّل/غير مُفعّل)
-            // $row->role هنا لا يزال يشير إلى القيمة الأصلية من حقل 'status' في جدول users
-            return $row->role == null ? __('words.not activated') : __('words.activated'); // أو أي منطق آخر للحالة
+        ->addColumn('status_text', function ($row) {
+             // هذا لعمود "Status"
+            return $row->status == null ? __('words.not activated') : __('words.activated');
         })
-        ->rawColumns(['action', 'role', 'current_status']) // تأكد من إضافة 'role' إذا كان يحتوي على HTML
+        ->rawColumns(['action'])
         ->make(true);
 }
 
@@ -128,21 +84,10 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function getUser()
-{
 
-            $data = User::select('id', 'name', 'email', 'status')->get();
-            $data= User::select('*');
-            dd($data);
-
-
-        return response()->json([
-            'data' => $data,
-        ]);
-}
     public function store(Request $request)
     {
-        $this->authorize('update', $this->user);
+       $this->authorize('update', $this->user);
         $data = [
             'name' => 'required|string',
             'status' => 'nullable|in:null,admin,writer',
@@ -179,7 +124,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        // $this->authorize('update', $user);
+        $this->authorize('update', $user);
         return response()->view('dashboard.users.edit', data: compact('user'));
     }
 

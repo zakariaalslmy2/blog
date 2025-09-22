@@ -22,16 +22,9 @@
      <link href="{{ asset('admin_assets/css/simple-line-icons.css')}}" rel="stylesheet">
      <!-- Main styles for this application -->
      <link href="{{ asset('admin_assets/dest/style.css')}}" rel="stylesheet">
+     <link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
  </head>
- <!-- BODY options, add following classes to body to change options
-         1. 'compact-nav'     	  - Switch sidebar to minified version (width 50px)
-         2. 'sidebar-nav'		  - Navigation on the left
-             2.1. 'sidebar-off-canvas'	- Off-Canvas
-                 2.1.1 'sidebar-off-canvas-push'	- Off-Canvas which move content
-                 2.1.2 'sidebar-off-canvas-with-shadow'	- Add shadow to body elements
-         3. 'fixed-nav'			  - Fixed navigation
-         4. 'navbar-fixed'		  - Fixed navbar
-     -->
+
 
  <body class="navbar-fixed sidebar-nav fixed-nav">
      <header class="navbar">
@@ -43,15 +36,7 @@
                      <a class="nav-link navbar-toggler layout-toggler" href="#">&#9776;</a>
                  </li>
 
-                 <!--<li class="nav-item p-x-1">
-                     <a class="nav-link" href="#">داشبورد</a>
-                 </li>
-                 <li class="nav-item p-x-1">
-                     <a class="nav-link" href="#">Users</a>
-                 </li>
-                 <li class="nav-item p-x-1">
-                     <a class="nav-link" href="#">Settings</a>
-                 </li>-->
+
              </ul>
              <ul class="nav navbar-nav pull-left hidden-md-down">
                  <li class="nav-item">
@@ -89,9 +74,26 @@
 
                      </div>
                  </li>
-                 <li class="nav-item">
-                     <a class="nav-link navbar-toggler aside-toggle" href="#">&#9776;</a>
-                 </li>
+
+             <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+
+                         <span class="hidden-md-down">{{ LaravelLocalization::getCurrentLocaleNative() }}</span>
+                     </a>
+                         <div class="dropdown-menu dropdown-menu-right">
+
+    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+
+            <a  class="dropdown-item" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                {{ $properties['native'] }}
+            </a>
+
+    @endforeach
+
+             </li>
+
+
+  </div>
 
              </ul>
          </div>
@@ -140,7 +142,11 @@
                          <img src="{{ asset('admin_assets/img/avatars/7.jpg') }}" class="img-avatar" alt="admin@bootstrapmaster.com">
                      </div>
                      <div>Skype with
+
                          <strong>Megan</strong>
+
+
+
                      </div>
                      <small class="text-muted m-r-1"><i class="icon-calendar"></i>&nbsp; 4 - 5pm</small>
                      <small class="text-muted"><i class="icon-social-skype"></i>&nbsp; On-line</small>
@@ -186,6 +192,7 @@
                  <div class="callout callout-primary m-a-0 p-y-1">
                      <div>
                          <strong>Team meeting</strong>
+
                      </div>
                      <small class="text-muted m-r-1"><i class="icon-calendar"></i>&nbsp; 4 - 6pm</small>
                      <small class="text-muted"><i class="icon-home"></i>&nbsp; creativeLabs HQ</small>
@@ -381,24 +388,32 @@
              Powered by <a href="http://coreui.io">CoreUI</a>
          </span>
      </footer>
-     <!-- Bootstrap and necessary plugins -->
-     <script src="{{ asset('admin_assets/js/libs/jquery.min.js')}}"></script>
-     <script src="{{ asset('admin_assets/js/libs/tether.min.js')}}"></script>
-     <script src="{{ asset('admin_assets/js/libs/bootstrap.min.js')}}"></script>
-     <script src="{{ asset('admin_assets/js/libs/pace.min.js')}}"></script>
 
-     <!-- Plugins and scripts required by all views -->
-     {{-- <script src="{{ asset('admin_assets/js/libs/Chart.min.js')}}"></script> --}}
-     <!-- CoreUI main scripts -->
-     <script src="{{ asset('admin_assets/js/app.js')}}"></script>
+<script src="{{ asset('admin_assets/js/libs/jquery.min.js') }}"></script>
+<script src="{{ asset('admin_assets/js/libs/tether.min.js') }}"></script>
+<script src="{{ asset('admin_assets/js/libs/bootstrap.min.js') }}"></script>
+<script src="{{ asset('admin_assets/js/libs/pace.min.js') }}"></script>
 
-     <!-- Plugins and scripts required by this views -->
-     <!-- Custom scripts required by this view -->
-     <script src="{{ asset('admin_assets/js/views/main.js')}}"></script>
+<!-- CoreUI main scripts -->
+<script src="{{ asset('admin_assets/js/app.js') }}"></script>
 
-     <!-- Grunt watch plugin -->
-     <script src="//localhost:35729/livereload.js"></script>
-@stack('javascripts')
+<!-- Plugins and scripts required by this view -->
+<script src="{{ asset('admin_assets/js/views/main.js') }}"></script>
+
+<!-- DataTables JS -->
+<script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<!-- Grunt watch plugin (لبيئة التطوير فقط) -->
+<script src="//localhost:35729/livereload.js"></script>
+    <!-- Custom scripts required by this view (if any) -->
+    {{-- It's better to remove the duplicate main.js call if app.js already handles it --}}
+    {{-- <script src="{{ asset('admin_assets/js/views/main.js')}}"></script> --}}
+
+    <!-- Grunt watch plugin (optional for development) -->
+    {{-- <script src="//localhost:35729/livereload.js"></script> --}}
+
+    <!-- 3. Your page-specific scripts are loaded LAST -->
+    @stack('javascripts')
  </body>
 
  </html>
