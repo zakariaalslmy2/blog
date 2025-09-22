@@ -75,47 +75,36 @@
     {{-- delete --}}
 @endsection
 @push('javascripts')
-    <script type="text/javascript">
-console.log("zakkkkkkkkkkkkkkkkkkk");
-        $(function() {
-            var table = $('#table_id').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ Route('dashboard.users.all') }}",
-                columns: [{
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        data: 'email',
-                        name: 'email'
-                    },
-                    {
-                        data: 'status',
-                        name: 'status',
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
+<script type="text/javascript">
+    $(function() {
+        var table = $('#table_id').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ Route('dashboard.users.all') }}",
+            columns: [
+                // <th>Username</th> -> maps to 'name' key from server
+                { data: 'name', name: 'name' },
 
-                    }
-                ]
-            });
+                // <th>Date registered</th> -> This column is missing from the controller.
+                // For now, let's display email here until you add the registration date to the controller.
+                // Or you can remove the <th> from HTML. We will display 'email' for now.
+                { data: 'email', name: 'email' },
 
+                // <th>Role</th> -> maps to the 'role' column you added in the controller
+                { data: 'role', name: 'role', orderable: false, searchable: false },
+
+                // <th>Status</th> -> maps to the 'status_text' column you added for clarity
+                { data: 'status_text', name: 'status' }, // Using 'status' as name for server-side searching/sorting
+
+                // <th>Action</th> -> maps to 'action' column from server
+                { data: 'action', name: 'action', orderable: false, searchable: false }
+            ]
         });
+    });
 
-
-
-        $('#table_id tbody').on('click', '#deleteBtn', function(argument) {
-            var id = $(this).attr("data-id");
-            console.log(id);
-            $('#deletemodal #id').val(id);
-        })
-    </script>
+    $('#table_id tbody').on('click', '#deleteBtn', function(argument) {
+        var id = $(this).attr("data-id");
+        $('#deletemodal #id').val(id);
+    });
+</script>
 @endpush

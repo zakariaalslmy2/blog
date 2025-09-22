@@ -13,8 +13,8 @@ class settingController extends Controller
     public function index()
     {
         $setting = settings::first();
-        $this->authorize('view', $setting);
-        return view('dashboard.settings');
+        $this->authorize('viewAny', settings::class);
+        return view(view: 'dashboard.setting');
     }
     public function update(Request $request, Settings $setting)
     {
