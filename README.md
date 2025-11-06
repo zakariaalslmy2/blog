@@ -1,15 +1,16 @@
-📰 Multi-Language Blog (Laravel)
-<p align="center"> <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="300" alt="Laravel Logo"> </p>
+Multi-Language Blog – Laravel 11
+<p align="center"> <a href="https://laravel.com" target="_blank"> <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="300" alt="Laravel Logo"> </a> </p>
 📖 About the Project | حول المشروع
 
-Multi-Language Blog هو نظام إدارة محتوى (CMS) مبني بإطار العمل Laravel، يتيح إنشاء وإدارة مقالات وأقسام بلغات متعددة (العربية، الإنجليزية، الفرنسية).
-يحتوي المشروع على لوحة تحكم متكاملة لإدارة الأقسام والمقالات والمستخدمين، مع دعم الأقسام الفرعية وواجهة API حديثة لتكامل البيانات مع تطبيقات أخرى.
+Multi-Language Blog هو نظام مدونة متعددة اللغات مبني على Laravel 11.
+يتيح إدارة المقالات، الأقسام (الرئيسية والفرعية)، والمستخدمين من خلال لوحة تحكم (Dashboard) احترافية.
+كما يدعم المشروع تعدد اللغات (العربية – الإنجليزية – الفرنسية)، مع واجهة موقع عامة (Website) وواجهة API لتكامل البيانات.
 
 ✨ Features | المميزات
 
-🌍 دعم متعدد اللغات (عربي، إنجليزي، فرنسي)
+🌍 دعم ثلاث لغات (عربية، إنجليزية، فرنسية) باستخدام mcamara/laravel-localization.
 
-🧭 لوحة تحكم Dashboard لإدارة:
+🧭 لوحة تحكم متكاملة لإدارة:
 
 🏷️ الأقسام والفروع الفرعية
 
@@ -17,80 +18,117 @@ Multi-Language Blog هو نظام إدارة محتوى (CMS) مبني بإطا�
 
 👤 المستخدمين والصلاحيات
 
-🧩 واجهة API لتكامل المشروع مع تطبيقات الجوال أو الويب
+⚙️ إعدادات الموقع
 
-📂 نظام تصنيفات متداخل (أقسام رئيسية وفرعية)
+💬 نظام ترجمة للنماذج باستخدام astrotomic/laravel-translatable.
 
-🔒 تسجيل دخول آمن مع صلاحيات مختلفة حسب نوع المستخدم
+📊 جداول تفاعلية باستخدام yajra/laravel-datatables.
 
-🗓️ واجهة مستخدم متجاوبة وسهلة الاستخدام
+🔐 تسجيل الدخول وحماية عبر laravel/sanctum.
+
+🧩 RESTful API لربط المدونة مع تطبيقات خارجية.
+
+🎨 واجهة أمامية بتصميم Bootstrap 4.
+
+🛠️ مراقبة وتحليل الأداء باستخدام laravel/telescope.
+
+🧱 نظام تصنيفات متداخل (أقسام رئيسية وفرعية).
 
 🧰 Tech Stack | تقنيات المشروع
-
-Backend: Laravel 10+
-
-Frontend: Blade / Vue.js (حسب استخدامك)
-
-Database: MySQL / PostgreSQL
-
-Authentication: Laravel Breeze / Sanctum / Passport
-
-API: RESTful API
-
-Localization: Laravel Localization
-
-⚙️ Installation | طريقة التثبيت
+المكون	التقنية
+Backend	Laravel 11
+Frontend	Blade + Bootstrap 4
+Database	MySQL
+Authentication	Laravel Sanctum
+Localization	Laravel Localization
+DataTables	yajra/laravel-datatables
+Debugging	Laravel Telescope / Debugbar
+⚙️ Installation | التثبيت والتشغيل
 # 1️⃣ استنسخ المشروع
 git clone https://github.com/yourusername/multilang-blog.git
 
 # 2️⃣ ادخل إلى مجلد المشروع
 cd multilang-blog
 
-# 3️⃣ ثبّت الحزم المطلوبة
+# 3️⃣ ثبّت الاعتمادات
 composer install
 npm install && npm run dev
 
 # 4️⃣ انسخ ملف البيئة
 cp .env.example .env
 
-# 5️⃣ أنشئ قاعدة البيانات وعدّل ملف .env accordingly
+# 5️⃣ حدّث إعدادات قاعدة البيانات في .env
+DB_CONNECTION=mysql
+DB_DATABASE=your_db_name
+DB_USERNAME=root
+DB_PASSWORD=
 
-# 6️⃣ شغّل الهجرات مع بيانات تجريبية
+# 6️⃣ شغّل الهجرات مع البيانات الافتراضية
 php artisan migrate --seed
 
-# 7️⃣ شغّل السيرفر المحلي
+# 7️⃣ أنشئ مفتاح التشفير
+php artisan key:generate
+
+# 8️⃣ شغّل السيرفر المحلي
 php artisan serve
 
+🗺️ Routes Overview | نظرة على المسارات
+🌐 Website Routes
+Route::get('/', [IndexController::class, 'index'])->name('index');
+Route::get('/categories/{category}', [WebsiteCategoryController::class, 'show'])->name('category');
+Route::get('/post/{post}', [PostController::class, 'show'])->name('post');
+
+🧭 Dashboard Routes (Multilingual)
+Route::group([
+    'prefix' => LaravelLocalization::setLocale(),
+    'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
+], function() {
+
+    Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => ['auth', cheack_login::class]], function () {
+        Route::get('/', fn() => view('dashboard.layout.layout'))->name('index');
+
+        Route::resources([
+            'users' => UserController::class,
+            'settings' => SettingController::class,
+            'category' => CategoryController::class,
+            'posts' => PostsController::class,
+        ]);
+
+        Route::get('/users/all', [UserController::class, 'getUsersDatatable'])->name('users.all');
+        Route::post('/users/delete', [UserController::class, 'delete'])->name('users.delete');
+    });
+});
+
 🌐 API Endpoints
-Method	Endpoint	Description
+Method	Endpoint	الوصف
 GET	/api/posts	جلب جميع المقالات
-GET	/api/posts/{id}	عرض تفاصيل مقال
+GET	/api/posts/{id}	عرض مقال محدد
 POST	/api/posts	إنشاء مقال جديد
-PUT	/api/posts/{id}	تحديث مقال
+PUT	/api/posts/{id}	تعديل مقال
 DELETE	/api/posts/{id}	حذف مقال
-GET	/api/categories	جلب الأقسام والفروع
+GET	/api/categories	جلب الأقسام
 POST	/api/login	تسجيل الدخول
 🧑‍💻 Dashboard | لوحة التحكم
 
-واجهة مخصصة للمسؤولين تمكّن من إدارة محتوى الموقع بشكل كامل:
+توفر لوحة التحكم إدارة شاملة لجميع أجزاء الموقع:
 
 إدارة المقالات.
 
-التحكم بالأقسام والفروع.
+إدارة الأقسام والفروع.
 
-إدارة المستخدمين والأدوار.
+إدارة المستخدمين.
 
-دعم كامل للغات الثلاث.
+الإعدادات العامة.
+
+دعم تعدد اللغات في كل المحتوى.
 
 🛡️ Security | الأمان
 
-المشروع مبني وفق ممارسات أمان Laravel الافتراضية:
+حماية من CSRF وXSS.
 
-حماية ضد XSS وCSRF.
+توثيق باستخدام Laravel Sanctum.
 
-إدارة الجلسات.
-
-صلاحيات المستخدمين.
+صلاحيات دخول محددة لكل مستخدم.
 
 📜 License | الرخصة
 
@@ -99,5 +137,5 @@ POST	/api/login	تسجيل الدخول
 
 🤝 Contributing | المساهمة
 
-نرحّب بمساهماتكم لتحسين المشروع ❤️
-للتقديم، قم بعمل fork للمستودع ثم pull request.
+نرحب بمساهماتكم لتحسين المشروع ❤️
+قم بعمل fork ثم pull request للتعديل أو إضافة ميزة جديدة.
