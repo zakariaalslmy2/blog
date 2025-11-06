@@ -37,6 +37,7 @@ Multi-Language Blog هو نظام مدونة متعددة اللغات مبني 
 🧰 Tech Stack | تقنيات المشروع
 المكون	التقنية
 Backend	Laravel 11
+
 Frontend	Blade + Bootstrap 4
 Database	MySQL
 Authentication	Laravel Sanctum
