@@ -156,7 +156,7 @@ Route::group([
 
 🗂️ هيكل المشروع (Project Structure)
 
-'''
+```
 
 MultiLangBlog/
 ├── app/
@@ -191,7 +191,7 @@ MultiLangBlog/
 ├── package.json
 ├── phpunit.xml
 └── README.md
-'''
+```
 
 
 🔧 أدوات التطوير (Development Tools)
