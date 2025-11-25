@@ -1,66 +1,208 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+📰 Multi-Language Blog – Laravel 11
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+📖 About the Project | حول المشروع
+مرحبًا بك في توثيق نظام المدونة متعددة اللغات (Multi-Language Blog) المبني باستخدام Laravel 11.
+يُقدم هذا المشروع نظام مدونة احترافي يدعم ثلاث لغات (العربية – الإنجليزية – الفرنسية)، مع لوحة تحكم (Dashboard) لإدارة المقالات، الأقسام، والمستخدمين، إضافة إلى واجهة موقع عامة (Website) ونظام API متكامل.
 
-## About Laravel
+Multi-Language Blog هو نظام مدونة متعددة اللغات مبني على Laravel 11.
+يتيح إدارة المقالات، الأقسام (الرئيسية والفرعية)، والمستخدمين من خلال لوحة تحكم (Dashboard) احترافية.
+كما يدعم المشروع تعدد اللغات (العربية – الإنجليزية – الفرنسية)، مع واجهة موقع عامة (Website) وواجهة API لتكامل البيانات
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+🧩 المميزات (Features)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+🌍 دعم ثلاث لغات (العربية، الإنجليزية، الفرنسية) باستخدام حزمة mcamara/laravel-localization.
 
-## Learning Laravel
+🧭 لوحة تحكم متكاملة لإدارة:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+🏷️ الأقسام والفروع الفرعية
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+📰 المقالات
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+👤 المستخدمين والصلاحيات
 
-## Laravel Sponsors
+⚙️ إعدادات الموقع العامة
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+💬 نظام ترجمة للنماذج باستخدام astrotomic/laravel-translatable.
 
-### Premium Partners
+📊 جداول تفاعلية عبر yajra/laravel-datatables.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+🔐 تسجيل الدخول وحماية متقدمة عبر laravel/sanctum.
 
-## Contributing
+🧩 نقاط نهاية RESTful API لتكامل البيانات مع تطبيقات خارجية.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+🎨 واجهة أمامية حديثة باستخدام Bootstrap 4.
 
-## Code of Conduct
+🛠️ مراقبة وتحليل الأداء عبر laravel/telescope.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+🧱 نظام تصنيفات متداخل (أقسام رئيسية وفرعية)..
 
-## Security Vulnerabilities
+| المكون             | التقنية                      |
+| ------------------ | ---------------------------- |
+| **Backend**        | Laravel 11                   |
+| **Frontend**       | Blade + Bootstrap 4          |
+| **Database**       | MySQL                        |
+| **Authentication** | Laravel Sanctum              |
+| **Localization**   | Laravel Localization         |
+| **DataTables**     | yajra/laravel-datatables     |
+| **Debugging**      | Laravel Telescope / Debugbar |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+⚙️ الإعداد والتشغيل (Setup and Installation)
 
-## License
+للبدء باستخدام المشروع، اتبع الخطوات التالية:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+1️⃣ استنسخ المستودع:
+
+git clone https://github.com/yourusername/multilang-blog.git
+
+
+2️⃣ ادخل إلى مجلد المشروع:
+
+cd multilang-blog
+
+
+3️⃣ ثبّت الاعتمادات:
+
+composer install
+npm install && npm run dev
+
+
+4️⃣ انسخ ملف البيئة:
+
+cp .env.example .env
+
+
+5️⃣ حدّث إعدادات قاعدة البيانات في .env:
+
+DB_CONNECTION=mysql
+DB_DATABASE=your_db_name
+DB_USERNAME=root
+DB_PASSWORD=
+
+
+6️⃣ شغّل الهجرات مع البيانات الافتراضية:
+
+php artisan migrate --seed
+
+
+7️⃣ أنشئ مفتاح التشفير:
+
+php artisan key:generate
+
+
+8️⃣ شغّل السيرفر المحلي:
+
+php artisan serve
+
+🗺️ Routes Overview | نظرة على المسارات
+🌐 Website Routes
+Route::get('/', [IndexController::class, 'index'])->name('index');
+Route::get('/categories/{category}', [WebsiteCategoryController::class, 'show'])->name('category');
+Route::get('/post/{post}', [PostController::class, 'show'])->name('post');
+
+🧭 Dashboard Routes (Multilingual)
+Route::group([
+    'prefix' => LaravelLocalization::setLocale(),
+    'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
+], function() {
+
+    Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => ['auth', cheack_login::class]], function () {
+        Route::get('/', fn() => view('dashboard.layout.layout'))->name('index');
+
+        Route::resources([
+            'users' => UserController::class,
+            'settings' => SettingController::class,
+            'category' => CategoryController::class,
+            'posts' => PostsController::class,
+        ]);
+
+        Route::get('/users/all', [UserController::class, 'getUsersDatatable'])->name('users.all');
+        Route::post('/users/delete', [UserController::class, 'delete'])->name('users.delete');
+    });
+});
+
+🌐 واجهات الـ API (API Endpoints)
+| الطريقة    | المسار            | الوصف             |
+| ---------- | ----------------- | ----------------- |
+| **GET**    | `/api/posts`      | جلب جميع المقالات |
+| **GET**    | `/api/posts/{id}` | عرض مقال محدد     |
+| **POST**   | `/api/posts`      | إنشاء مقال جديد   |
+| **PUT**    | `/api/posts/{id}` | تعديل مقال        |
+| **DELETE** | `/api/posts/{id}` | حذف مقال          |
+| **GET**    | `/api/categories` | جلب الأقسام       |
+| **POST**   | `/api/login`      | تسجيل الدخول      |
+
+
+🧑‍💻 لوحة التحكم (Dashboard)
+
+توفر لوحة التحكم إدارة شاملة لجميع أجزاء الموقع، وتشمل:
+
+📰 إدارة المقالات.
+
+🏷️ إدارة الأقسام والفروع.
+
+👤 إدارة المستخدمين والصلاحيات.
+
+⚙️ الإعدادات العامة.
+
+🌍 دعم تعدد اللغات في كل المحتوى..
+🛡️ الأمان (Security)
+
+🔒 حماية من هجمات CSRF و XSS.
+
+🔑 توثيق باستخدام Laravel Sanctum.
+
+🧩 نظام صلاحيات متدرج يحدد الوصول حسب المستخدم..
+
+🗂️ هيكل المشروع (Project Structure)
+
+```
+
+MultiLangBlog/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   ├── Middleware/
+│   │   └── Requests/
+│   ├── Models/
+│   ├── Providers/
+│   └── ...
+├── database/
+│   ├── migrations/
+│   ├── seeders/
+│   └── factories/
+├── resources/
+│   ├── lang/
+│   │   ├── ar/
+│   │   ├── en/
+│   │   └── fr/
+│   ├── views/
+│   │   ├── website/
+│   │   └── dashboard/
+│   └── ...
+├── routes/
+│   ├── web.php
+│   ├── api.php
+│   └── ...
+├── tests/
+│   ├── Feature/
+│   └── Unit/
+├── composer.json
+├── package.json
+├── phpunit.xml
+└── README.md
+```
+
+
+🔧 أدوات التطوير (Development Tools)
+
+Laravel 11+ — إطار عمل PHP الأساسي للتطبيق.
+
+Laravel Sanctum — نظام مصادقة بسيط وآمن.
+
+Laravel Telescope — أداة تحليل وأداء.
+
+Bootstrap 4 — تصميم الواجهة الأمامية.
+
+Postman — لاختبار واجهات الـ API.
+
