@@ -28,18 +28,28 @@ class AppServiceProvider extends ServiceProvider
     {
 
 
+    if ($this->app->runningInConsole()) {
+        return; // لا تشغل أي استعلام أثناء أوامر artisan
+    }
 
+    Paginator::useBootstrap();
 
+    $setting = settings::chackSetting();
+    $categories = Category::with('children')
+        ->where('parent', 0)
+        ->orWhereNull('parent')
+        ->get();
 
-        Paginator::useBootstrap();
-        $setting=settings::chackSetting();
-        $categories = Category::with('children')->where('parent' , 0)->orWhere('parent' , null)->get();
-        $lastFivePosts = Post::with('category','user')->orderBy('id')->limit(5)->get();
-        View()->share([
-            'setting'=>$setting,
-            'categories'=>$categories,
-            'lastFivePosts'=>$lastFivePosts,
-        ]);
+    $lastFivePosts = Post::with('category','user')
+        ->orderBy('id', 'desc')  // لازم desc
+        ->limit(5)
+        ->get();
+
+    View()->share([
+        'setting' => $setting,
+        'categories' => $categories,
+        'lastFivePosts' => $lastFivePosts,
+    ]);
 
 
 

@@ -11,6 +11,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+
 Route::group(['prefix' => 'v1', 'as' => 'dashboard.', 'middleware' => [ CheakLangApi::class]], function () {
 
     Route::get('settings', [SettingController::class, 'index'])->name('setting');

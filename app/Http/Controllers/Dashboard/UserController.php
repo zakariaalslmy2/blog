@@ -4,24 +4,24 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-
 use Illuminate\Http\Request;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
+use App\Services\UserService;
 
-
-
-use Illuminate\Console\Command;
-use App\DataTables\UsersDataTable;
 class UserController extends Controller
 {
+    protected $userService;
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * حقن السيرفس داخل الكنترولر
      */
-    protected $user;
-    public function __construct(User $user)
+    public function __construct(UserService $userService)
     {
-        $this->user = $user;
+        $this->userService = $userService;
+
+        // يمكنك وضع middleware الصلاحيات هنا أو داخل الدوال
+        // $this->authorizeResource(User::class, 'user');
     }
 
     public function index()
@@ -29,132 +29,59 @@ class UserController extends Controller
         return view('dashboard.users.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function getUsersDatatable()
+    {
+        return $this->userService->getDatatable();
+    }
+
     public function create()
     {
-        return response()->view('dashboard.users.add');
+        return view('dashboard.users.add');
     }
-
-
-
-public function getUsersDatatable()
-{
-
-  if (auth()->user()->can('viewAny', \App\Models\User::class)) {
-        $data = \App\Models\User::select('id', 'name', 'email', 'status');
-    } else {
-        $data = \App\Models\User::where('id', auth()->user()->id)
-                          ->select('id', 'name', 'email', 'status');
-    }
-//  $data = \App\Models\User::select('id', 'name', 'email', 'status');
-    return \Yajra\DataTables\Facades\DataTables::of($data)
-        ->addIndexColumn() // يضيف عمود الترقيم DT_RowIndex
-        ->addColumn('action', function ($row) {
-            $btn = '';
-            if (auth()->user()->can('update', $row)) {
-                $btn .= '<a href="' . route('dashboard.users.edit', $row->id) . '" class="edit btn btn-success btn-sm"><i class="fa fa-edit"></i></a>';
-            }
-            if (auth()->user()->can('delete', $row)) {
-                $btn .= ' <a id="deleteBtn" data-id="' . $row->id . '" class="edit btn btn-danger btn-sm"  data-toggle="modal" data-target="#deletemodal"><i class="fa fa-trash"></i></a>';
-            }
-                            $btn .= ' <a id="deleteBtn" data-id="' . $row->id . '" class="edit btn btn-danger btn-sm"  data-toggle="modal" data-target="#deletemodal"><i class="fa fa-trash"></i></a>';
-                            $btn .= '<a href="' . route('dashboard.users.edit', $row->id) . '" class="edit btn btn-success btn-sm"><i class="fa fa-edit"></i></a>';
-            return $btn;
-
-        })
-        ->addColumn('role', function ($row) {
-            // هذا لعمود "Role"
-            return $row->status ? __('words.' . $row->status) : __('words.no_role_assigned');
-        })
-        ->addColumn('status_text', function ($row) {
-             // هذا لعمود "Status"
-            return $row->status == null ? __('words.not activated') : __('words.activated');
-        })
-        ->rawColumns(['action'])
-        ->make(true);
-}
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * التخزين باستخدام StoreUserRequest
      */
-
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-       $this->authorize('update', $this->user);
-        $data = [
-            'name' => 'required|string',
-            'status' => 'nullable|in:null,admin,writer',
-            'email' => 'required|email|unique:users',
-            'password' => 'required',
-        ];
-        $validatedData = $request->validate($data);
-        User::create([
-            'name' => $request->name,
-            'status' => $request->status,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ]);
+        $this->authorize('create', User::class); // أو update حسب منطقك القديم
+
+        // نمرر البيانات المصدقة فقط للسيرفس
+        $this->userService->createUser($request->validated());
+
         return redirect()->route('dashboard.users.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(User $user)
     {
         $this->authorize('update', $user);
-        return response()->view('dashboard.users.edit', data: compact('user'));
+        return view('dashboard.users.edit', compact('user'));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * التحديث باستخدام UpdateUserRequest
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
         $this->authorize('update', $user);
-        $user->update($request->all());
+
+        $this->userService->updateUser($user, $request->validated());
+
         return redirect()->route('dashboard.users.index');
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * الحذف
      */
-
-
     public function delete(Request $request)
     {
-        $this->authorize('delete', $this->user);
-        if (is_numeric($request->id)) {
-            User::where('id', $request->id)->delete();
+        // ملاحظة: يفضل استخدام Route Model Binding (destroy(User $user))
+        // ولكن سأبقيها كما هي لكي تعمل مع المودال الموجود لديك حالياً
+
+        $this->authorize('delete', User::class); // تأكد من السياسة هنا
+
+        if ($request->filled('id') && is_numeric($request->id)) {
+            $this->userService->deleteUser($request->id);
         }
 
         return redirect()->route('dashboard.users.index');

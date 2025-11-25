@@ -6,7 +6,7 @@ use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use phpDocumentor\Reflection\Types\Self_;
-class Settings extends Model implements TranslatableContract
+class settings extends Model implements TranslatableContract
 {
     use HasFactory, Translatable;
 
